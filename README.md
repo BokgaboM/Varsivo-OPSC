@@ -1,164 +1,161 @@
 # Varsivo — Apply. Fund. Succeed.
 
-<!-- TODO: replace <user>/<repo> with your GitHub repository to show the build badge -->
-[![Android CI](https://github.com/<user>/<repo>/actions/workflows/android.yml/badge.svg)](https://github.com/<user>/<repo>/actions/workflows/android.yml)
+[![Android CI](https://github.com/ST10440136/Varsivo-OPSC/actions/workflows/android.yml/badge.svg)](https://github.com/ST10440136/Varsivo-OPSC/actions/workflows/android.yml)
 
-Varsivo is a South African mobile app that helps **Grade 12 learners** find universities, apply for them, discover
-bursaries and check which institutions they qualify for — all in one place. A premium tier, **UniAssist**, supports
-first-year students with their timetable and deadlines.
+Varsivo is a South African Android app that helps **Grade 11 and 12 learners** work out which universities they
+qualify for, find bursaries, keep track of their applications, and get first-year support once they are enrolled.
 
-Built by **Team CyberSparks** for the **OPSC6312** WIL project (Part 2 – App Prototype Development).
-Language: **Kotlin** · UI: **XML layouts + Android Views (no Jetpack Compose)**.
+OPSC6312 Portfolio of Evidence (Part 2: App Prototype, Part 3: Final App).
+Language: **Kotlin** · UI: **XML layouts + Android Views** (no Jetpack Compose anywhere in the project).
 
-> 🎥 **Demo video:** `<!-- TODO: paste your unlisted YouTube link here -->`
+> 🎥 **Demo video:** `<!-- TODO: paste the unlisted YouTube link here -->`
 >
-> 👥 **Team:** `<!-- TODO: add the four team member names -->`
+> 👤 **Author:** Bokgabo Mohlala (ST10440136) `<!-- TODO: add team members if this is a group submission -->`
 
 ---
 
 ## 1. Purpose of the app
 
-Matric learners in South Africa have to juggle university applications, bursary deadlines and subject requirements
-across many websites. Varsivo puts the essentials in one app:
+Matric learners have to juggle university applications, bursary deadlines and subject requirements across many
+websites. Varsivo puts the essentials in one app:
 
-| Need | Varsivo feature |
+| Learner need | Varsivo feature |
 |---|---|
-| Find a university and apply | **Find Your University** list (public REST API), apply form, **map** of the campus |
-| Pay for studies | **Bursaries** list from our hosted REST API, details and apply form |
-| Know what I qualify for | **Explore** – APS calculator that matches the learner to institutions |
-| Keep track of my applications | **Applications tracker** (offline-first, syncs to the cloud) |
-| Settle in at university | **UniAssist** – timetable and deadlines (premium tier) |
+| Do I qualify? | **Explore**: APS calculator that converts marks to the 7-point scale and matches institutions |
+| How do I pay for it? | **Bursaries**: searchable list from the Cloud Firestore database, filtered by field and province |
+| Where did I apply? | **Tracker**: offline-first application tracker that syncs to the cloud |
+| Which universities exist? | **Find your university**: public universities API with a map |
+| How do I survive first year? | **UniAssist** (premium): timetable and deadlines, unlocked with a verified `.ac.za` student email |
 
 ## 2. Screenshots
 
-<!-- TODO: add screenshots to docs/screenshots/ and link them, e.g. -->
-<!-- ![Login](docs/screenshots/login.png) ![Home](docs/screenshots/home.png) -->
+<!-- TODO: add phone screenshots to docs/screenshots/ and link them here, e.g. -->
+<!-- ![Login](docs/screenshots/login.png) ![Home](docs/screenshots/home.png) ![Bursaries](docs/screenshots/bursaries.png) -->
 
-## 3. Features (and where to find them in the code)
+## 3. Features and where they are in the code
 
 | Feature | What it does | Code |
 |---|---|---|
-| **Register / Sign in** | Student ID + password. The password is **salted and hashed with PBKDF2-HMAC-SHA256** before it is saved or uploaded — the plain password is never stored. Validation messages for every field. | `LoginFragment`, `RegisterFragment`, `AuthRepository`, `SecurityUtils` |
-| **Settings** | Edit name and school, choose language, switch notifications on/off, **change password**, log out. Saved on the phone and pushed to the online database. | `SettingsFragment` |
-| **REST API (hosted)** | MockAPI project with `users`, `applications` and `bursaries` resources (see §6). | `api/` package |
-| **API integration** | Retrofit + Gson calls from the app: register/login/update user, list bursaries, submit applications. | `RetrofitClient`, `*Api.kt` |
-| **Bursaries** (user-defined 1) | List, search, "view more", details screen and apply form. | `BursariesFragment`, `BursaryDetailsFragment` |
-| **Universities + Map** (user-defined 2) | Searchable list from the Hipo Labs Universities API; place name → coordinates with OpenStreetMap Nominatim; shown on a **MapLibre** map (external SDK). | `UniversitiesFragment`, `UniversityMapFragment` |
-| **Applications tracker** (user-defined 3) | Local SQLite table, status chip (Pending → Submitted → Offer), delete, search, "Offline – will sync…" retry. | `ApplicationsTrackerFragment`, `ApplicationRepository`, `ApplicationsDb` |
-| **APS calculator** (extra) | Converts marks to the 7-point scale, matches institutions. | `ExploreFragment`, `ApsCalculator` |
-| **UniAssist** (extra) | Timetable and upcoming deadlines (prototype data). | `FirstYearSupportFragment` |
+| **Register and log in** | Email + password with Firebase Authentication. Firebase stores passwords as salted scrypt hashes; the phone keeps only a salted **PBKDF2-HMAC-SHA256** hash (120 000 iterations) for offline login. Clear errors for a wrong password, an email already in use and no connection. | `LoginFragment`, `RegisterFragment`, `AuthRepository`, `FirebaseAuthService`, `SecurityUtils` |
+| **Onboarding choices** | Role (Grade 11 learner / Grade 12 learner / University student) and language, picked on the login screen and saved to the profile. | `LoginFragment`, `UserStore` |
+| **Forgot password** | Firebase emails a real reset link. | `LoginFragment`, `AuthRepository.sendPasswordReset` |
+| **Settings** | Name, school, language, notifications and password change. Saved on the phone (SharedPreferences) and in Firestore `users/{uid}`; offline changes upload automatically later. | `SettingsFragment`, `AuthRepository.updateSettings` |
+| **Bursary database** | Bursaries from the Firestore `bursaries` collection (seeded from the app the first time it is empty). Search by name or provider, filter by study field and province. | `BursariesFragment`, `BursaryRepository`, `BursarySeed`, `BursaryFilter` |
+| **APS calculator** | Validates each mark (0–100), converts to APS points and shows which institutions the learner qualifies for. | `ExploreFragment`, `ApsCalculator` |
+| **Application tracker** | Applications, status changes and deletes are saved to SQLite first, then synced to Firestore `users/{uid}/applications`. Offline changes show "Offline – will sync…" and upload when the tracker opens again. | `ApplicationsTrackerFragment`, `ApplicationRepository`, `ApplicationsDb`, `FirestoreApplicationRemote` |
+| **UniAssist (premium)** | Locked until the student enters a university email ending in `.ac.za`; the flag is stored on the phone and in Firestore. | `FirstYearSupportFragment`, `UniAssistRepository` |
+| **Universities + map** | Hipo Labs Universities API (Retrofit), OpenStreetMap Nominatim for coordinates, shown on a MapLibre map. | `UniversitiesFragment`, `UniversityMapFragment` |
+| **Three languages** | English, isiZulu and Afrikaans for every screen; switch on the login screen or in Settings. | `res/values`, `res/values-zu`, `res/values-af`, `AppLanguage` |
 
 ## 4. Design considerations
 
-* **Android Views + XML, single Activity.** One `MainActivity` hosts a `NavHostFragment`; every screen is a Fragment
-  declared in `res/navigation/nav_graph.xml`. The navy bottom bar is defined once in `activity_main.xml`.
-* **View Binding** instead of `findViewById` for type-safe access to views (`BaseFragment` handles the binding lifecycle).
-* **Material 3 components** (`TextInputLayout`, `MaterialButton`, `MaterialCardView`, dialogs, snackbars) with a custom
-  navy `#053E7D` / gold `#F8A100` theme, shared styles in `styles.xml`, and consistent layout, fonts and colours.
-* **Invalid input never crashes the app.** Every form validates with the pure functions in `Validators`, shows an
-  error on the exact field, and clears it as soon as the learner edits it again. Network failures show a friendly
-  message with a **Try again** button.
-* **Offline-first.** Accounts and applications are saved on the phone first and then synced to the REST API. If the
-  network is down the learner can still register, log in and apply; unsynced rows are flagged and retried.
-* **Responsive to the keyboard and system bars** (edge-to-edge insets handled in `MainActivity`).
-* **Separation of concerns:** Fragments (UI) → repositories (`AuthRepository`, `ApplicationRepository`) → data
-  sources (SharedPreferences, SQLite, Retrofit). Logic that needs testing lives in plain Kotlin classes.
+* **Views and XML only, single Activity.** `MainActivity` hosts a `NavHostFragment`; every screen is a Fragment in
+  `res/navigation/nav_graph.xml`. View Binding replaces `findViewById`, and `BaseFragment` clears the binding in
+  `onDestroyView` so screens never leak views.
+* **Bottom navigation:** Home | Explore | Bursaries | Tracker | Profile, defined once in `activity_main.xml`; the
+  current tab is highlighted in gold.
+* **Brand:** navy `#053E7D` and gold `#F8A100` Material 3 theme, shared styles in `styles.xml`, matching the Figma
+  design.
+* **Invalid input never crashes the app.** Every form validates with the pure functions in `Validators`, shows the
+  error on the exact field and clears it while the user types. Every network call has a timeout and a friendly message.
+* **Offline first.** The last account can log in without internet (local PBKDF2 hash), the tracker works fully
+  offline, and Firestore queues profile and settings writes until the phone reconnects.
+* **Separation of concerns:** Fragments (UI) → repositories → data sources (SharedPreferences, SQLite, Firebase,
+  Retrofit). The online sign-in sits behind the `AuthService` interface so the logic is unit-tested with a fake.
+* **Security:** passwords are never stored in plain text; Firestore security rules only let a signed-in user read
+  and write their own `users/{uid}` documents.
 
 ```
 com.example.varsivo
-├── MainActivity.kt · VarsivoApplication.kt · SecurityUtils.kt
-├── api/        Retrofit interfaces + models (users, applications, bursaries, universities, geocoding)
-├── data/       AuthRepository, ApplicationRepository, UserStore (SharedPreferences), ApplicationsDb (SQLite)
-├── ui/         one Fragment per screen, BaseFragment, adapters/ (RecyclerView)
-└── util/       Validators, ApsCalculator, BursaryFilter, PartOfDay
+├── MainActivity · VarsivoApplication · SecurityUtils
+├── api/   Retrofit clients and models (bursary model, universities, geocoding)
+├── data/  AuthRepository, AuthService + FirebaseAuthService, BursaryRepository, ApplicationRepository,
+│          ApplicationsDb (SQLite), UserStore (SharedPreferences), UniAssistRepository
+├── ui/    one Fragment per screen, BaseFragment, adapters
+└── util/  Validators, ApsCalculator, BursaryFilter, AppLanguage, PartOfDay
 ```
 
-## 5. Security
+## 5. Online services and database
 
-* Passwords: 16-byte random salt + **PBKDF2WithHmacSHA256, 120 000 iterations, 256-bit hash** (`SecurityUtils`).
-  Only the salt and hash are saved on the phone and in the online database.
-* Hash comparison uses `MessageDigest.isEqual` (constant time).
-* No API keys are committed; `local.properties` and `secrets.properties` are in `.gitignore`.
+| Service | Used for |
+|---|---|
+| **Firebase Authentication** | Accounts (email + password) and password-reset emails |
+| **Cloud Firestore** (NoSQL) | `users/{uid}`: profile, role, language, notifications, UniAssist flag · `users/{uid}/applications`: tracker · `bursaries`: bursary database |
+| **Hipo Labs Universities API** | List of South African universities |
+| **OpenStreetMap Nominatim** | University name → map coordinates |
 
-## 6. REST API and database
+Firebase project settings are in `app/src/main/res/values/firebase.xml` (copied from `google-services.json`).
 
-Hosted on **MockAPI** (`https://6aa34e30e7ae868cdf7aceb1.mockapi.io/`). The base URL is set in `RetrofitClient.kt`.
+## 6. Automated testing
 
-| Resource | Method & path | Used for |
-|---|---|---|
-| `users` | `POST /users` | Register (stores `studentId, name, schoolName, salt, passwordHash`) |
-| | `GET /users?studentId=…` | Duplicate check and login on a new phone |
-| | `PUT /users/{id}` | Settings: profile or password change |
-| `applications` | `POST /applications` | Submit a university or bursary application |
-| `bursaries` | `GET /bursaries` | Bursaries list (`name, description, provider, eligibility, closingDate`) |
-
-> **Set-up note:** create the three resources in MockAPI with the fields above (the `applications` resource needs
-> `studentId, type, institution, programme, status, applicantName, email, createdAt`).
-
-External public APIs: [Hipo Labs Universities](http://universities.hipolabs.com/) and
-[OpenStreetMap Nominatim](https://nominatim.org/). Map SDK: [MapLibre Native](https://maplibre.org/).
-
-## 7. Automated testing
-
-**46 JUnit tests** run on the JVM (no phone needed):
+JUnit tests run on the JVM, with no phone needed:
 
 | Test class | What it proves |
 |---|---|
-| `AuthRepositoryTest` | Register hashes the password and syncs; offline registration; duplicate Student ID refused; login success / wrong password / unknown ID / login on a second phone; change password; profile update; logout |
-| `ValidatorsTest` | Name, Student ID, password, email and mark rules |
-| `ApsCalculatorTest` | Mark → point scale, APS scaling, eligibility |
-| `BursaryFilterTest`, `BursaryTest` | Search/"view more" logic and safe handling of JSON nulls |
-| `SecurityUtilsTest` | Hash/verify, unique salts, hash format |
-| `PartOfDayTest`, `ApplicationStatusTest` | Greeting and status cycling |
+| `AuthRepositoryTest` | Register (hash on phone, profile online, role and language sent), duplicate email, offline register; login online, offline, wrong password, unknown email, on a second phone; Google sign-in profile; password reset; change password; settings online and offline; logout |
+| `ValidatorsTest` | Name, email, password, mark and `.ac.za` student-email rules |
+| `ApsCalculatorTest` | Mark → points, APS scaling, eligibility |
+| `BursaryFilterTest` | Search, field filter, province filter, "View more" |
+| `BursaryTest`, `SecurityUtilsTest`, `PartOfDayTest`, `ApplicationStatusTest` | JSON nulls, hashing, greeting, status cycling |
 
-Run locally: `./gradlew testDebugUnitTest` (report: `app/build/reports/tests/testDebugUnitTest/index.html`).
+Run locally: right-click `com.example.varsivo (test)` → **Run Tests**, or `./gradlew testDebugUnitTest`.
 
-## 8. GitHub and GitHub Actions
+## 7. GitHub and GitHub Actions
 
-* The project is version-controlled with Git on GitHub (commit and push regularly as features are added).
-* **`.github/workflows/android.yml`** runs on every push and pull request: it sets up JDK 21, runs
+* The project is version-controlled with Git and pushed to GitHub after each feature.
+* `.github/workflows/android.yml` runs on every push and pull request: it sets up JDK 21, runs
   `./gradlew testDebugUnitTest`, builds `./gradlew assembleDebug`, and uploads the test report and the debug APK as
-  build artifacts. A green badge at the top of this README means the tests pass and the app builds on a clean machine.
+  build artifacts. The badge at the top shows the latest result.
 
-## 9. Logging
+<!-- TODO: add a screenshot of a green Actions run: ![Actions](docs/screenshots/actions.png) -->
 
-`android.util.Log` is used throughout (tags such as `AuthRepository`, `ApplicationRepository`, `SettingsFragment`,
-`MainActivity`) to record logins, registrations, API results, sync retries and navigation. Filter **Logcat** by the tag
-or by `package:com.example.varsivo` to follow the app while it runs.
+## 8. Logging
 
-## 10. How to run
+`android.util.Log` is used throughout (tags such as `AuthRepository`, `FirebaseAuthService`, `BursaryRepository`,
+`ApplicationRepository`, `UniAssist`, `AppLanguage`, `MainActivity`) to record logins, sync results, offline
+fall-backs and navigation. Filter Logcat by `package:za.co.varsivo.app` to follow the app.
 
-1. Open the project in **Android Studio** (a recent version that supports AGP 9) and let Gradle sync.
-2. Run on an emulator or a phone (minSdk 24).
-3. Register a new account, then log in.
+## 9. How to run
 
-Requirements: JDK 21 (Android Studio's bundled JDK is fine) and an internet connection for the API features.
+1. Open the project folder (the one containing `app/`) in Android Studio and let Gradle sync.
+2. Connect an Android phone (USB debugging on) and press **Run**. Minimum Android 7.0 (API 24).
+3. Register with an email and password, then log in.
 
-## 11. Known limitations
+## 10. Release notes
 
-* The language drop-down saves the choice, but the isiZulu / Afrikaans translations are not included yet.
-* "Forgot password" and "Continue with Google" are demo flows (a real reset needs an email service; real Google
-  Sign-In needs an OAuth client).
-* UniAssist timetable/deadlines use sample data.
-* The universities API is plain HTTP, so cleartext traffic is enabled in the manifest.
+### Part 2 rebuild (November 2026)
+* Rebuilt the whole UI with **XML layouts and Android Views**; Jetpack Compose removed.
+* **Firebase Authentication** for register, login, logout and password reset; **Cloud Firestore** for profiles and
+  settings (replacing the earlier MockAPI users table).
+* Role and language chosen at onboarding.
+* Bursaries moved to **Firestore**, with **field and province filters** and search by provider.
+* Tracker status changes and deletes now **sync to the cloud**, with offline queueing.
+* **UniAssist** locked behind `.ac.za` student-email verification.
+* New bottom navigation: Home | Explore | Bursaries | Tracker | Profile.
+* **isiZulu and Afrikaans** translations for every screen.
+* App ID changed to `za.co.varsivo.app` (Play Store ready).
+* Unit tests rewritten for Firebase; GitHub Actions builds and tests every push.
 
-## 12. Use of AI tools
+### Part 3 (final PoE)
+<!-- TODO: filled in when Part 3 is done (Google SSO, push notifications, blob storage, app icon, signed APK). -->
 
-> *Edit this section so it is accurate for your own work (maximum 500 words, with citations).*
+## 11. Use of AI tools
 
-Claude (Anthropic, 2026) was used to help convert the user interface from Jetpack Compose to XML layouts with Android
-Views, to complete missing resource files, and to draft the unit tests, the GitHub Actions workflow and the structure of
-this README. All generated code was reviewed, run and tested by the team. Prompts and outputs are available on request.
+See [docs/AI_USE.md](docs/AI_USE.md).
 
-## 13. References
+## 12. References
 
-Android Developers (2024) *Navigation component*. Available at: https://developer.android.com/guide/navigation (Accessed: `<date>`).
-Android Developers (2024) *View binding*. Available at: https://developer.android.com/topic/libraries/view-binding (Accessed: `<date>`).
-Android Developers (2024) *Save data using SQLite*. Available at: https://developer.android.com/training/data-storage/sqlite (Accessed: `<date>`).
-Anthropic (2026) *Claude* [Large language model]. Available at: https://claude.ai (Accessed: `<date>`).
-GitHub (2025) *Automated build Android app with GitHub Action*. Available at: https://github.com/marketplace/actions/automated-build-android-app-with-github-action (Accessed: `<date>`).
-Hipo Labs (2024) *Universities API*. Available at: http://universities.hipolabs.com/ (Accessed: `<date>`).
-MapLibre (2025) *MapLibre Native for Android*. Available at: https://maplibre.org/maplibre-native/android/ (Accessed: `<date>`).
-MockAPI (2025) *MockAPI*. Available at: https://mockapi.io/ (Accessed: `<date>`).
-OpenStreetMap Foundation (2025) *Nominatim*. Available at: https://nominatim.org/ (Accessed: `<date>`).
-Square (2024) *Retrofit*. Available at: https://square.github.io/retrofit/ (Accessed: `<date>`).
+Android Developers (2024) *Navigation component*. Available at: https://developer.android.com/guide/navigation (Accessed: 3 November 2026).
+Android Developers (2024) *View binding*. Available at: https://developer.android.com/topic/libraries/view-binding (Accessed: 3 November 2026).
+Android Developers (2024) *Save data using SQLite*. Available at: https://developer.android.com/training/data-storage/sqlite (Accessed: 3 November 2026).
+Android Developers (2024) *Per-app language preferences*. Available at: https://developer.android.com/guide/topics/resources/app-languages (Accessed: 3 November 2026).
+Anthropic (2026) *Claude* [Large language model]. Available at: https://claude.ai (Accessed: 3 November 2026).
+Firebase (2026) *Authenticate with Firebase using password-based accounts on Android*. Available at: https://firebase.google.com/docs/auth/android/password-auth (Accessed: 3 November 2026).
+Firebase (2026) *Add data to Cloud Firestore*. Available at: https://firebase.google.com/docs/firestore/manage-data/add-data (Accessed: 3 November 2026).
+Firebase (2026) *Get data with Cloud Firestore*. Available at: https://firebase.google.com/docs/firestore/query-data/get-data (Accessed: 3 November 2026).
+GitHub (2025) *Automated build Android app with GitHub Action*. Available at: https://github.com/marketplace/actions/automated-build-android-app-with-github-action (Accessed: 3 November 2026).
+Hipo Labs (2024) *Universities API*. Available at: http://universities.hipolabs.com/ (Accessed: 3 November 2026).
+MapLibre (2025) *MapLibre Native for Android*. Available at: https://maplibre.org/maplibre-native/android/ (Accessed: 3 November 2026).
+OpenStreetMap Foundation (2025) *Nominatim*. Available at: https://nominatim.org/ (Accessed: 3 November 2026).
+OWASP (2024) *Password Storage Cheat Sheet*. Available at: https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html (Accessed: 3 November 2026).
+Square (2024) *Retrofit*. Available at: https://square.github.io/retrofit/ (Accessed: 3 November 2026).

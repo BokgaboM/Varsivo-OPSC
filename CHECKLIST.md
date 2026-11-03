@@ -8,7 +8,7 @@ Part 3 is out of 100 in total; the per-line marks are in the Part 3 rubric. Line
 
 Tick a box by changing `[ ]` to `[x]`.
 
-> Note: the Azure API was never hosted, so the app uses Firebase (decision 2 Nov). Tick = code done and builds; phone run still to be confirmed.
+> Note: the Azure API was never hosted, so the app uses Firebase (decision 2 Nov). Tick = code done and builds (GitHub Actions green); phone run still to be confirmed.
 
 ## Block 0 – Audit (0:00–0:30)
 - [x] P2+P3 – No Compose in the project (checked: viewBinding only, no compose plugin or dependency)
@@ -56,15 +56,15 @@ Tick a box by changing `[ ]` to `[x]`.
 - [ ] P3 – Runs on a real phone, no errors, compiles
 - [ ] P3 – Lecturer feedback from Part 1 and Part 2 applied
 - [x] P3 – Register + login, password encrypted
-- [ ] P3 – Single sign-on (Google) works
+- [x] P3 – Single sign-on (Google) works
 - [x] P3 – Change settings
-- [ ] P3 – REST API connected to a database (Firebase + public universities REST API)
+- [x] P3 – REST API connected to a database (Firebase + public universities REST API)
 - [x] P3 – Offline mode with sync (tracker, SQLite) – syncs on reconnect
-- [ ] P3 – Real-time push notifications (Firebase Cloud Messaging)
+- [x] P3 – Real-time push notifications (Firebase Cloud Messaging)
 - [x] P3 – At least two SA languages (isiZulu + Afrikaans) – switch works on every screen
 - [x] P3 – Part 1 features present
-- [ ] P3 – App icon + final image assets
-- [ ] P3 – Blob storage used (learning outcome)
+- [x] P3 – App icon + final image assets
+- [x] P3 – Blob storage used (learning outcome)
 - [x] P3 – Data stored in a NoSQL database (learning outcome)
 - [x] P3 – Data read from a NoSQL database (learning outcome)
 
@@ -75,13 +75,13 @@ Tick a box by changing `[ ]` to `[x]`.
 - [ ] P3 – Uploaded unlisted to YouTube, link in README
 
 ## Part 3 – GitHub
-- [ ] P3 – Regular commits and pushes
+- [x] P3 – Regular commits and pushes
 - [x] P3 – GitHub Actions tests + build green
 - [ ] P3 – Final commit tagged "final PoE"
 
 ## Part 3 – README documentation
-- [ ] P3 – Report: purpose, design considerations, GitHub + Actions use, with images
-- [ ] P3 – Release notes: every update since the prototype, innovative features explained
+- [x] P3 – Report: purpose, design considerations, GitHub + Actions use, with images
+- [x] P3 – Release notes: every update since the prototype, innovative features explained
 
 ## Part 3 – Publishing
 - [x] P3 – applicationId changed from com.example.varsivo (Play Store rejects com.example)

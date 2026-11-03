@@ -196,4 +196,10 @@
     <string name="error_google_sign_in">Ukungena nge-Google akusebenzanga. Hlola ukuxhumana kwakho bese uzama futhi, noma ungene nge-imeyili yakho.</string>
     <string name="notification_channel_name">Izexwayiso ze-Varsivo</string>
     <string name="notification_channel_description">Izinsuku zokuvala imifundaze, izibuyekezo zezicelo nezikhumbuzo.</string>
+    <!-- Profile photo (Azure Blob Storage) -->
+    <string name="profile_photo">Isithombe sephrofayela</string>
+    <string name="change_photo">Shintsha isithombe</string>
+    <string name="photo_saved">Isithombe sephrofayela silondolozwe emafini.</string>
+    <string name="photo_failed">Asikwazanga ukulayisha isithombe. Hlola ukuxhumana kwakho bese uzama futhi.</string>
+    <string name="photo_not_configured">Ukulayisha izithombe akukasethwa.</string>
 </resources>

@@ -1,23 +1,30 @@
 package com.example.varsivo.ui
 
+import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.varsivo.BuildConfig
 import com.example.varsivo.R
+import com.example.varsivo.data.AzureBlobStorage
 import com.example.varsivo.data.ChangePasswordOutcome
+import com.example.varsivo.data.ProfilePhotoRepository
 import com.example.varsivo.data.UserStore
 import com.example.varsivo.databinding.FragmentSettingsBinding
 import com.example.varsivo.notifications.PushNotifications
 import com.example.varsivo.util.AppLanguage
 import com.example.varsivo.util.Validators
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.launch
 
 /**
@@ -26,6 +33,19 @@ import kotlinx.coroutines.launch
  * also saved in Cloud Firestore (synced automatically when the phone is back online).
  */
 class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
+
+    private val photos by lazy {
+        ProfilePhotoRepository(
+            requireContext().applicationContext,
+            AzureBlobStorage(BuildConfig.AZURE_PHOTOS_SAS_URL),
+            userStore
+        )
+    }
+
+    /** Android photo picker (no storage permission needed). */
+    private val pickPhoto = registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
+        if (uri != null) uploadPhoto(uri) else Log.d(TAG, "No photo picked")
+    }
 
     override fun inflateBinding(inflater: LayoutInflater, container: ViewGroup?) =
         FragmentSettingsBinding.inflate(inflater, container, false)
@@ -52,6 +72,15 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
         binding.currentPasswordInput.onTextChanged { binding.currentPasswordLayout.error = null }
         binding.newPasswordInput.onTextChanged { binding.newPasswordLayout.error = null }
         binding.confirmNewPasswordInput.onTextChanged { binding.confirmNewPasswordLayout.error = null }
+
+        binding.changePhotoButton.setOnClickListener {
+            if (!photos.isConfigured) {
+                showMessage(getString(R.string.photo_not_configured), isError = true)
+            } else {
+                pickPhoto.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+            }
+        }
+        loadPhoto()
 
         binding.saveButton.setOnClickListener { saveSettings() }
         binding.changePasswordButton.setOnClickListener { changePassword() }
@@ -87,6 +116,41 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
             )
             PushNotifications.applyPreference(notifications) // join/leave the alerts topic
             AppLanguage.apply(chosenLanguage) // redraws every screen if the language changed
+        }
+    }
+
+    private fun loadPhoto() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            val bitmap = photos.load()
+            if (hasView && bitmap != null) showPhoto(bitmap)
+        }
+    }
+
+    private fun showPhoto(bitmap: Bitmap) {
+        binding.profilePhoto.imageTintList = null
+        binding.profilePhoto.setPadding(0, 0, 0, 0)
+        binding.profilePhoto.clipToOutline = true
+        binding.profilePhoto.setImageBitmap(bitmap)
+    }
+
+    /** Uploads the picked photo to Azure Blob Storage. */
+    private fun uploadPhoto(uri: Uri) {
+        binding.photoProgress.show()
+        binding.changePhotoButton.isEnabled = false
+        viewLifecycleOwner.lifecycleScope.launch {
+            val ok = try {
+                photos.upload(uri)
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                Log.w(TAG, "Photo upload failed: ${e.message}")
+                false
+            }
+            if (!hasView) return@launch
+            binding.photoProgress.hide()
+            binding.changePhotoButton.isEnabled = true
+            showMessage(getString(if (ok) R.string.photo_saved else R.string.photo_failed), isError = !ok)
+            loadPhoto()
         }
     }
 

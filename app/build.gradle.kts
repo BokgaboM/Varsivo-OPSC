@@ -11,6 +11,12 @@ val keystoreProperties = Properties().apply {
     val file = rootProject.file("keystore.properties")
     if (file.exists()) file.inputStream().use { load(it) }
 }
+// Private settings that must never reach GitHub (secrets.properties is in .gitignore).
+val secretProperties = Properties().apply {
+    val file = rootProject.file("secrets.properties")
+    if (file.exists()) file.inputStream().use { load(it) }
+}
+
 val hasVarsivoKey = keystoreProperties.getProperty("storeFile")?.let { rootProject.file(it).exists() } == true
 
 android {
@@ -28,6 +34,10 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        // Azure Blob Storage container SAS URL (profile photos). Empty when secrets.properties is missing.
+        val azureSasUrl = secretProperties.getProperty("azurePhotosSasUrl", "")
+        buildConfigField("String", "AZURE_PHOTOS_SAS_URL", "\"$azureSasUrl\"")
     }
 
     signingConfigs {
@@ -87,6 +97,7 @@ dependencies {
     // REST API client (Retrofit + Gson) and the map SDK (MapLibre, OpenStreetMap based)
     implementation(libs.retrofit)
     implementation(libs.retrofit.converter.gson)
+    implementation(libs.okhttp) // direct HTTP calls to the Azure Blob Storage REST API
     implementation(libs.maplibre.android)
 
     // Firebase: Authentication (email + Google sign-in), Cloud Firestore (NoSQL database)

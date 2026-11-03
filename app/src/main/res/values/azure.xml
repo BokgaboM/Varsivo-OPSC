@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- The Azure Blob Storage SAS URL is NOT stored here: it is read from secrets.properties (not on GitHub)
+     into BuildConfig.AZURE_PHOTOS_SAS_URL by app/build.gradle.kts. -->
+<resources />

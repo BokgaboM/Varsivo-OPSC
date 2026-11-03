@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="default_bursary_requirements">
+        <item>Ubuzwe baseNingizimu Afrika</item>
+        <item>Ubufakazi bemali engenayo yomndeni</item>
+        <item>Imiphumela yezemfundo</item>
+        <item>Ukwamukelwa noma ukubhaliswa esikhungweni</item>
+    </string-array>
+</resources>

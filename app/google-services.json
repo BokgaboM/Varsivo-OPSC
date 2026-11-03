@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "620882838914",
+    "project_id": "varsivo-5be57",
+    "storage_bucket": "varsivo-5be57.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:620882838914:android:1576a2631fc2dce6ba7b9b",
+        "android_client_info": {
+          "package_name": "za.co.varsivo.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB7qkWEJ8XzI0rgFnZ1DZy33q0ufVBYjpI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

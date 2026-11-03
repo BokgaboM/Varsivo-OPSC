@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="default_bursary_requirements">
+        <item>Suid-Afrikaanse burgerskap</item>
+        <item>Bewys van huishoudelike inkomste</item>
+        <item>Akademiese uitslae</item>
+        <item>Aanvaarding of registrasie by \'n instelling</item>
+    </string-array>
+</resources>

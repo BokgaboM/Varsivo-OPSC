@@ -1,0 +1,21 @@
+# Gradle / Android Studio
+*.iml
+.gradle/
+build/
+.idea/
+.kotlin/
+captures/
+.externalNativeBuild/
+.cxx/
+*.apk
+*.aab
+
+# Machine-specific or secret files - never commit these
+local.properties
+secrets.properties
+*.jks
+*.keystore
+
+# OS
+.DS_Store
+Thumbs.db

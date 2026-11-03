@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Firebase settings copied from app/google-services.json (project "varsivo-5be57").
+    These are the same resource names the Google Services Gradle plugin would generate, so Firebase
+    starts by itself when the app opens (FirebaseInitProvider), without needing that plugin.
+    Firebase API keys identify the project; access is protected by the Firestore security rules.
+    Reference: Firebase (2026) *Understand Firebase projects* https://firebase.google.com/docs/projects/learn-more
+-->
+<resources>
+    <string name="google_app_id" translatable="false">1:620882838914:android:1576a2631fc2dce6ba7b9b</string>
+    <string name="google_api_key" translatable="false">AIzaSyB7qkWEJ8XzI0rgFnZ1DZy33q0ufVBYjpI</string>
+    <string name="gcm_defaultSenderId" translatable="false">620882838914</string>
+    <string name="project_id" translatable="false">varsivo-5be57</string>
+    <string name="google_storage_bucket" translatable="false">varsivo-5be57.firebasestorage.app</string>
+</resources>

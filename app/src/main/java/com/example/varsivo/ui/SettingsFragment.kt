@@ -14,6 +14,7 @@ import com.example.varsivo.R
 import com.example.varsivo.data.ChangePasswordOutcome
 import com.example.varsivo.data.UserStore
 import com.example.varsivo.databinding.FragmentSettingsBinding
+import com.example.varsivo.notifications.PushNotifications
 import com.example.varsivo.util.AppLanguage
 import com.example.varsivo.util.Validators
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -84,6 +85,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
                 getString(if (syncedOnline) R.string.settings_saved_online else R.string.settings_saved_offline),
                 isError = false
             )
+            PushNotifications.applyPreference(notifications) // join/leave the alerts topic
             AppLanguage.apply(chosenLanguage) // redraws every screen if the language changed
         }
     }

@@ -1,6 +1,17 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
 }
+
+// Signing key (app/varsivo-release.jks). Its passwords live in keystore.properties, which is NOT on GitHub.
+// Debug and release builds use the same key, so the SHA-1 registered in Firebase (needed for Google
+// sign-in) always matches. On a machine without the file (e.g. GitHub Actions) the default debug key is used.
+val keystoreProperties = Properties().apply {
+    val file = rootProject.file("keystore.properties")
+    if (file.exists()) file.inputStream().use { load(it) }
+}
+val hasVarsivoKey = keystoreProperties.getProperty("storeFile")?.let { rootProject.file(it).exists() } == true
 
 android {
     namespace = "com.example.varsivo"
@@ -19,8 +30,23 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    signingConfigs {
+        if (hasVarsivoKey) {
+            create("varsivo") {
+                storeFile = rootProject.file(keystoreProperties.getProperty("storeFile"))
+                storePassword = keystoreProperties.getProperty("storePassword")
+                keyAlias = keystoreProperties.getProperty("keyAlias")
+                keyPassword = keystoreProperties.getProperty("keyPassword")
+            }
+        }
+    }
+
     buildTypes {
+        getByName("debug") {
+            if (hasVarsivoKey) signingConfig = signingConfigs.getByName("varsivo")
+        }
         release {
+            if (hasVarsivoKey) signingConfig = signingConfigs.getByName("varsivo")
             optimization {
                 enable = false
             }

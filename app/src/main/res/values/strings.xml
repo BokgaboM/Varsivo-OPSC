@@ -225,4 +225,7 @@
     <string name="verify_email">Verify and unlock</string>
     <string name="error_student_email">Use your university email address, e.g. name@student.uj.ac.za</string>
     <string name="uniassist_unlocked">UniAssist unlocked!</string>
+    <string name="error_google_sign_in">Google sign-in did not work. Check your internet connection and try again, or log in with your email.</string>
+    <string name="notification_channel_name">Varsivo alerts</string>
+    <string name="notification_channel_description">Bursary closing dates, application updates and reminders.</string>
 </resources>

@@ -193,4 +193,7 @@
     <string name="verify_email">Verifieer en sluit oop</string>
     <string name="error_student_email">Gebruik jou universiteit se e-posadres, bv. naam@student.uj.ac.za</string>
     <string name="uniassist_unlocked">UniAssist oopgesluit!</string>
+    <string name="error_google_sign_in">Google-aanmelding het nie gewerk nie. Gaan jou internetverbinding na en probeer weer, of meld aan met jou e-pos.</string>
+    <string name="notification_channel_name">Varsivo-waarskuwings</string>
+    <string name="notification_channel_description">Beurs-sluitingsdatums, aansoekopdaterings en herinneringe.</string>
 </resources>

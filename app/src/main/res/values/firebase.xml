@@ -12,4 +12,7 @@
     <string name="gcm_defaultSenderId" translatable="false">620882838914</string>
     <string name="project_id" translatable="false">varsivo-5be57</string>
     <string name="google_storage_bucket" translatable="false">varsivo-5be57.firebasestorage.app</string>
+    <!-- OAuth "Web client" id, needed for Sign in with Google. Comes from google-services.json
+         (oauth_client with client_type 3) after Google sign-in is enabled in Firebase. -->
+    <string name="default_web_client_id" translatable="false">620882838914-qvri5vp9bkl121l8inag3vcjq7ijqtoc.apps.googleusercontent.com</string>
 </resources>

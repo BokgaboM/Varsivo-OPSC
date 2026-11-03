@@ -8,6 +8,7 @@ import com.example.varsivo.data.AuthRepository
 import com.example.varsivo.data.FirebaseAuthService
 import com.example.varsivo.data.FirestoreApplicationRemote
 import com.example.varsivo.data.UserStore
+import com.example.varsivo.notifications.PushNotifications
 import com.example.varsivo.util.AppLanguage
 
 /**
@@ -31,5 +32,8 @@ class VarsivoApplication : Application() {
         Log.i("VarsivoApplication", "Varsivo started")
         // Use the language the student chose last time (English, isiZulu or Afrikaans).
         AppLanguage.apply(userStore.language)
+        // Push notifications: create the channel and follow the Settings switch.
+        PushNotifications.createChannel(this)
+        PushNotifications.applyPreference(userStore.notificationsEnabled)
     }
 }

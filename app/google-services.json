@@ -12,7 +12,20 @@
           "package_name": "za.co.varsivo.app"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "620882838914-eg114bqniphp9sj5tnldlbns5b0vvlbj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "za.co.varsivo.app",
+            "certificate_hash": "2967cbc176db55ff6beecc0af6aa44231b81d269"
+          }
+        },
+        {
+          "client_id": "620882838914-qvri5vp9bkl121l8inag3vcjq7ijqtoc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyB7qkWEJ8XzI0rgFnZ1DZy33q0ufVBYjpI"
@@ -20,7 +33,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "620882838914-qvri5vp9bkl121l8inag3vcjq7ijqtoc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

@@ -193,4 +193,7 @@
     <string name="verify_email">Qinisekisa futhi uvule</string>
     <string name="error_student_email">Sebenzisa ikheli le-imeyili lenyuvesi yakho, isb. igama@student.uj.ac.za</string>
     <string name="uniassist_unlocked">I-UniAssist ivuliwe!</string>
+    <string name="error_google_sign_in">Ukungena nge-Google akusebenzanga. Hlola ukuxhumana kwakho bese uzama futhi, noma ungene nge-imeyili yakho.</string>
+    <string name="notification_channel_name">Izexwayiso ze-Varsivo</string>
+    <string name="notification_channel_description">Izinsuku zokuvala imifundaze, izibuyekezo zezicelo nezikhumbuzo.</string>
 </resources>

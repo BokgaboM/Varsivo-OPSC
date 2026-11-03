@@ -8,6 +8,11 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.FrameLayout
+import androidx.credentials.CredentialManager
+import androidx.credentials.CustomCredential
+import androidx.credentials.GetCredentialRequest
+import androidx.credentials.exceptions.GetCredentialCancellationException
+import androidx.credentials.exceptions.GetCredentialException
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.varsivo.R
@@ -16,6 +21,9 @@ import com.example.varsivo.data.UserStore
 import com.example.varsivo.databinding.FragmentLoginBinding
 import com.example.varsivo.util.AppLanguage
 import com.example.varsivo.util.Validators
+import com.google.android.libraries.identity.googleid.GetSignInWithGoogleOption
+import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
+import com.google.android.libraries.identity.googleid.GoogleIdTokenParsingException
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
@@ -129,16 +137,66 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
     }
 
     /**
-     * Google single sign-on is added with Firebase Authentication in Part 3. Until then the button
-     * only shows a message and never opens Home, so it cannot skip the login.
+     * Single sign-on with Google through Android Credential Manager. The Google ID token is then
+     * exchanged for a Firebase account ([com.example.varsivo.data.AuthRepository.loginWithGoogle]).
+     *
+     * Reference: Android Developers (2025) *Authenticate users with Sign in with Google*
+     * https://developer.android.com/identity/sign-in/credential-manager-siwg
      */
     private fun showGoogleDialog() {
-        Log.i(TAG, "Google sign-in tapped (not available yet)")
-        MaterialAlertDialogBuilder(requireContext())
-            .setTitle(R.string.continue_with_google)
-            .setMessage(R.string.google_coming_soon)
-            .setPositiveButton(R.string.ok, null)
-            .show()
+        val webClientId = getString(R.string.default_web_client_id)
+        if (!webClientId.endsWith(".apps.googleusercontent.com")) {
+            // Firebase project not configured for Google yet: never let the button skip the login.
+            Log.w(TAG, "Google sign-in not configured (default_web_client_id missing)")
+            MaterialAlertDialogBuilder(requireContext())
+                .setTitle(R.string.continue_with_google)
+                .setMessage(R.string.google_coming_soon)
+                .setPositiveButton(R.string.ok, null)
+                .show()
+            return
+        }
+
+        val request = GetCredentialRequest.Builder()
+            .addCredentialOption(GetSignInWithGoogleOption.Builder(webClientId).build())
+            .build()
+
+        setLoading(true)
+        viewLifecycleOwner.lifecycleScope.launch {
+            val outcome = try {
+                val result = CredentialManager.create(requireContext()).getCredential(requireActivity(), request)
+                val credential = result.credential
+                if (credential is CustomCredential &&
+                    credential.type == GoogleIdTokenCredential.TYPE_GOOGLE_ID_TOKEN_CREDENTIAL
+                ) {
+                    val google = GoogleIdTokenCredential.createFrom(credential.data)
+                    authRepository.loginWithGoogle(google.idToken, google.displayName)
+                } else {
+                    Log.w(TAG, "Unexpected credential type: ${credential.type}")
+                    LoginOutcome.INVALID_CREDENTIALS
+                }
+            } catch (e: GetCredentialCancellationException) {
+                Log.i(TAG, "Google sign-in cancelled by the user")
+                null
+            } catch (e: GetCredentialException) {
+                Log.w(TAG, "Google sign-in failed: ${e.type} ${e.message}")
+                LoginOutcome.NO_CONNECTION
+            } catch (e: GoogleIdTokenParsingException) {
+                Log.w(TAG, "Could not read the Google ID token", e)
+                LoginOutcome.INVALID_CREDENTIALS
+            }
+            if (!hasView) return@launch
+            setLoading(false)
+            when (outcome) {
+                null -> Unit // cancelled
+                LoginOutcome.SUCCESS -> {
+                    Log.i(TAG, "Google sign-in OK, opening Home")
+                    findNavController().navigate(R.id.action_login_to_home)
+                    AppLanguage.apply(userStore.language)
+                }
+                LoginOutcome.INVALID_CREDENTIALS -> showError(getString(R.string.error_google_sign_in))
+                LoginOutcome.NO_CONNECTION -> showError(getString(R.string.error_google_sign_in))
+            }
+        }
     }
 
     private fun pickRole() {

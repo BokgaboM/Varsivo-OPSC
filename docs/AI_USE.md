@@ -1,7 +1,5 @@
 # Use of AI tools
 
-> **Before submitting:** read this, change anything that is not accurate for your own work, and keep it under 500
-> words. If this is a group submission, add a short paragraph from each member.
 
 ## Tool used
 
@@ -25,12 +23,11 @@ assistant while rebuilding and extending the app with XML layouts and Android Vi
   locally; GitHub Actions also builds and tests every push.
 * I created and configured the Firebase project, authentication provider and Firestore security rules myself.
 * The app was run on a physical phone to confirm each feature before recording the demo video.
-* Translations were reviewed by a first-language speaker. <!-- TODO: confirm, or remove this line -->
+
 
 ## What I learned / my own contribution
 
-<!-- TODO: in your own words (2–4 sentences): which decisions you made, what you changed from the AI's suggestions,
-and what you learned (e.g. offline-first sync, Firebase security rules, Android per-app languages). -->
+This was my first experience with the Firebase model , I not only learnt how to use it but also how different it is compared to other models. How to connect the Firebase to the code and push it to git. Along with adding different langauges froms of  authentication etc. 
 
 ## Reference
 

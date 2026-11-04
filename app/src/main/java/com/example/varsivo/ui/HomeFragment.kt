@@ -12,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.varsivo.R
 import com.example.varsivo.databinding.FragmentHomeBinding
 import com.example.varsivo.notifications.PushNotifications
+import com.example.varsivo.notifications.RealtimeAlerts
 import com.example.varsivo.util.PartOfDay
 import java.util.Calendar
 
@@ -35,6 +36,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         ) {
             askNotificationPermission.launch(Manifest.permission.POST_NOTIFICATIONS)
         }
+        // Automatic alerts for new bursaries and application updates (Firestore real-time listeners).
+        RealtimeAlerts.start(requireContext(), userStore.remoteId)
 
         val firstName = userStore.name.trim().substringBefore(" ").ifBlank { getString(R.string.student) }
         binding.greetingText.text = getString(R.string.greeting_hi, firstName)

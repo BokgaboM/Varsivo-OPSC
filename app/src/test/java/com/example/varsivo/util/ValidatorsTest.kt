@@ -82,4 +82,38 @@ class ValidatorsTest {
         assertFalse(Validators.isStudentEmail("ac.za"))
         assertFalse(Validators.isStudentEmail(""))
     }
+
+    // ---------- .edu.za and allowed college domains ----------
+
+    @Test fun studentEmail_acceptsEduZaColleges() {
+        assertTrue(Validators.isStudentEmail("ST10000000@vcconnect.edu.za"))   // IIE / Rosebank
+        assertTrue(Validators.isStudentEmail("ST10000000@rcconnect.edu.za"))
+        assertTrue(Validators.isStudentEmail("learner@students.sbtvet.edu.za")) // TVET college
+    }
+
+    @Test fun studentEmail_isCaseInsensitiveAndTrimmed() {
+        assertTrue(Validators.isStudentEmail("  ST10000000@VCConnect.EDU.ZA  "))
+        assertTrue(Validators.isStudentEmail("Thabo@Student.UJ.AC.ZA"))
+    }
+
+    @Test fun studentEmail_acceptsAllowListedCollegesAndTheirSubdomains() {
+        assertTrue(Validators.isStudentEmail("thabo@eduvos.com"))
+        assertTrue(Validators.isStudentEmail("thabo@students.eduvos.com"))
+        assertTrue(Validators.isStudentEmail("thabo@mancosa.co.za"))
+    }
+
+    @Test fun studentEmail_rejectsPersonalAndCompanyMail() {
+        assertFalse(Validators.isStudentEmail("thabo@outlook.com"))
+        assertFalse(Validators.isStudentEmail("thabo@yahoo.co.za"))
+        assertFalse(Validators.isStudentEmail("thabo@company.co.za")) // random .co.za is not a college
+    }
+
+    @Test fun studentEmail_rejectsLookAlikeDomains() {
+        assertFalse(Validators.isStudentEmail("thabo@vcconnect.edu.za.fake.com"))
+        assertFalse(Validators.isStudentEmail("thabo@eduvos.com.evil.net"))
+        assertFalse(Validators.isStudentEmail("thabo@fakeeduvos.com"))    // no dot before the allowed domain
+        assertFalse(Validators.isStudentEmail("thabo@edu.za"))           // bare suffix, no institution
+        assertFalse(Validators.isStudentEmail("thabo@ac.za"))
+        assertFalse(Validators.isStudentEmail("not-an-email.edu.za"))    // no @ at all
+    }
 }

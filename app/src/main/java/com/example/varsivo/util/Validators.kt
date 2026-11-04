@@ -29,9 +29,47 @@ object Validators {
 
     fun isValidEmail(email: String): Boolean = EMAIL_REGEX.matches(email.trim())
 
-    /** UniAssist: a valid email at a South African academic domain (ends in ".ac.za"). */
-    fun isStudentEmail(email: String): Boolean =
-        isValidEmail(email) && email.trim().lowercase().endsWith(".ac.za")
+    /**
+     * South African academic domain endings: ".ac.za" (public universities, e.g. student.uj.ac.za)
+     * and ".edu.za" (TVET colleges and private institutions, e.g. the IIE's vcconnect.edu.za).
+     */
+    private val ACADEMIC_SUFFIXES = listOf(".ac.za", ".edu.za")
+
+    /**
+     * Private SA colleges whose student emails do not end in .ac.za or .edu.za.
+     * The address must be this domain or a sub-domain of it (e.g. students.eduvos.com).
+     * Add to this list when a new college needs to be accepted.
+     */
+    private val ALLOWED_COLLEGE_DOMAINS = listOf(
+        "eduvos.com",
+        "mancosa.co.za",
+        "regenesys.net",
+        "damelin.co.za"
+    )
+
+    /**
+     * UniAssist: a valid email at a South African university or college.
+     * Accepted: any "name@<something>.ac.za" or "name@<something>.edu.za" address, or an address
+     * at one of [ALLOWED_COLLEGE_DOMAINS] (or its sub-domains).
+     * Rejected: personal mail (gmail, outlook...), ordinary ".co.za" company addresses, a bare
+     * "ac.za"/"edu.za" domain, and look-alikes such as "name@uj.ac.za.fake.com" (only the real
+     * END of the domain counts). Spaces around the address are ignored; case does not matter.
+     */
+    fun isStudentEmail(email: String): Boolean {
+        if (!isValidEmail(email)) return false
+        val domain = email.trim().lowercase().substringAfterLast('@')
+
+        // ".ac.za" / ".edu.za" with at least one name in front (so "ac.za" alone is refused).
+        val academic = ACADEMIC_SUFFIXES.any { suffix ->
+            domain.endsWith(suffix) && domain.length > suffix.length
+        }
+        // Exact college domain, or a sub-domain ending in "." + that domain
+        // ("fakeeduvos.com" does not match "eduvos.com").
+        val allowedCollege = ALLOWED_COLLEGE_DOMAINS.any { allowed ->
+            domain == allowed || domain.endsWith(".$allowed")
+        }
+        return academic || allowedCollege
+    }
 
     /** NSC subject marks are percentages between 0 and 100. */
     fun isValidMark(mark: Int): Boolean = mark in 0..100

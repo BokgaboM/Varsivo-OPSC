@@ -221,9 +221,9 @@
     <string name="filter_province">Province</string>
     <string name="no_bursaries_match">No bursaries match your search and filters.</string>
     <!-- UniAssist verification -->
-    <string name="student_email_hint">Student email (ends in .ac.za)</string>
+    <string name="student_email_hint">Student email (ends in .ac.za or .edu.za)</string>
     <string name="verify_email">Verify and unlock</string>
-    <string name="error_student_email">Use your university email address, e.g. name@student.uj.ac.za</string>
+    <string name="error_student_email">Use your university or college email address, e.g. name@student.uj.ac.za or ST10000000@vcconnect.edu.za</string>
     <string name="uniassist_unlocked">UniAssist unlocked!</string>
     <string name="error_google_sign_in">Google sign-in did not work. Check your internet connection and try again, or log in with your email.</string>
     <string name="notification_channel_name">Varsivo alerts</string>

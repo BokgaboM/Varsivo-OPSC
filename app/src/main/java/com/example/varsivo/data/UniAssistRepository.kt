@@ -9,7 +9,7 @@ import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withTimeoutOrNull
 
 /**
- * UniAssist (premium tier) is locked until the student verifies a university email (.ac.za).
+ * UniAssist (premium tier) is locked until the student verifies a university or college email (.ac.za / .edu.za).
  * The result is saved on the phone and on the student's Firestore profile (users/{uid}), and is
  * read back from Firestore so it also unlocks on a new phone.
  */

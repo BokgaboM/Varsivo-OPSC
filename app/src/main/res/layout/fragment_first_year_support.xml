@@ -49,7 +49,7 @@
             android:gravity="center"
             android:text="@string/verify_to_unlock_detail" />
 
-        <!-- Student email verification (must be a university .ac.za address) -->
+        <!-- Student email verification (university or college address: .ac.za, .edu.za or an allowed college) -->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/studentEmailLayout"
             style="@style/Widget.Varsivo.TextInput"

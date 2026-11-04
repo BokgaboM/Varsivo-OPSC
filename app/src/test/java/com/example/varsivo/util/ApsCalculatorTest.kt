@@ -26,9 +26,23 @@ class ApsCalculatorTest {
         assertEquals(27, ApsCalculator.calculate(listOf(80, 70, 60, 50, 40, 30)))
     }
 
-    @Test fun calculate_scalesFewerSubjectsToSix() {
-        // Three subjects, all 7 points -> average 7 * 6 = 42
-        assertEquals(42, ApsCalculator.calculate(listOf(90, 85, 80)))
+    @Test fun calculate_needsExactlySixSubjects() {
+        // The old version scaled 3 subjects of 80%+ up to the maximum 42: that was the bug.
+        assertNull(ApsCalculator.calculate(listOf(90, 85, 80)))
+        assertNull(ApsCalculator.calculate(listOf(80, 70, 60, 50, 40, 30, 90))) // 7 marks: LO must be left out
+    }
+
+    @Test fun calculate_matchesTheWorkedExampleFromTheSource() {
+        // Points 5, 5, 4, 7, 6, 5 -> APS 32 (ZA Bursaries worked example)
+        assertEquals(32, ApsCalculator.calculate(listOf(65, 60, 55, 85, 75, 62)))
+    }
+
+    @Test fun calculate_allDistinctionsGiveTheMaximum42() {
+        assertEquals(42, ApsCalculator.calculate(List(6) { 80 }))
+    }
+
+    @Test fun calculate_lowestMarksGiveTheMinimum6() {
+        assertEquals(6, ApsCalculator.calculate(List(6) { 0 }))
     }
 
     @Test fun calculate_returnsNullWhenNoMarksEntered() {

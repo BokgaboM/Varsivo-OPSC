@@ -201,3 +201,15 @@ OpenStreetMap Foundation (2025) *Nominatim*. Available at: https://nominatim.org
 OWASP (2024) *Password Storage Cheat Sheet*. Available at: https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html (Accessed: 3 November 2026).
 Square (2024) *Retrofit*. Available at: https://square.github.io/retrofit/ (Accessed: 3 November 2026).
 ZA Bursaries (2026) *Calculate your APS score for university entrance*. Available at: https://www.zabursaries.co.za/aps-score-for-university-entrance/ (Accessed: 4 November 2026).
+
+13. Play Store Preparation
+
+The application has been fully prepared for submission to the Google Play Store.
+
+Store Assets: The final 512 × 512 high-resolution app icon and the 1024 × 500 feature graphic are available in the [`docs/play-store/`](docs/play-store/) directory.
+
+Release Build: A signed Android APK has been generated for final submission. The release keystore is stored securely offline and excluded from version control.
+
+Store Listing Screenshots: A full set of high-resolution phone screenshots demonstrating the app's core features has been generated and is ready for upload.
+
+Documentation: The complete, final Portfolio of Evidence (PoE) document is available as a PDF in the [`docs/`](docs/) directory.

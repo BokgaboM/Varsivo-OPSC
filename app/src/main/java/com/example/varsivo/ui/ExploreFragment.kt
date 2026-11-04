@@ -11,6 +11,7 @@ import com.example.varsivo.databinding.ItemCareerBinding
 import com.example.varsivo.databinding.ItemInstitutionBinding
 import com.example.varsivo.databinding.ItemSubjectMarkBinding
 import com.example.varsivo.util.ApsCalculator
+import com.example.varsivo.util.CareerAdvisor
 import com.example.varsivo.util.ExploreData
 import com.example.varsivo.util.Validators
 import androidx.navigation.fragment.findNavController
@@ -18,8 +19,9 @@ import com.google.android.material.textfield.TextInputEditText
 
 /**
  * Explore: an APS (Admission Point Score) calculator that tells the student which institutions
- * they currently qualify for, plus a short list of popular careers.
- * The maths lives in [ApsCalculator] so it can be unit tested.
+ * they currently qualify for and which careers they can aim for with that score.
+ * Before a score is calculated, a short list of popular careers is shown instead.
+ * The maths lives in [ApsCalculator] and [CareerAdvisor] so it can be unit tested.
  */
 class ExploreFragment : BaseFragment<FragmentExploreBinding>() {
 
@@ -63,13 +65,16 @@ class ExploreFragment : BaseFragment<FragmentExploreBinding>() {
     private fun addSubjectField() {
         if (subjectInputs.size >= ApsCalculator.MAX_SUBJECTS) return
         val row = ItemSubjectMarkBinding.inflate(layoutInflater, binding.subjectContainer, false)
-        row.subjectLayout.hint = getString(R.string.subject_mark_hint, subjectInputs.size + 1)
+        // Each field is labelled with the subject it stands for (Home Language, FAL, Maths, electives).
+        val subjectNames = resources.getStringArray(R.array.aps_subjects)
+        row.subjectLayout.hint = subjectNames.getOrElse(subjectInputs.size) {
+            getString(R.string.subject_mark_hint, subjectInputs.size + 1)
+        }
         row.subjectInput.onTextChanged { row.subjectLayout.error = null }
         subjectInputs.add(row.subjectInput)
         binding.subjectContainer.addView(row.root)
         binding.addSubjectButton.showIf(subjectInputs.size < ApsCalculator.MAX_SUBJECTS)
-        binding.subjectCountText.text =
-            getString(R.string.subjects_added, subjectInputs.size, ApsCalculator.MAX_SUBJECTS)
+        binding.subjectCountText.text = getString(R.string.aps_rule_note)
     }
 
     private fun calculate() {
@@ -104,11 +109,12 @@ class ExploreFragment : BaseFragment<FragmentExploreBinding>() {
         subjectsUsedForScore = marks.size
 
         binding.apsScoreText.text = getString(R.string.your_score, score)
-        binding.apsNoteText.showIf(marks.size < ApsCalculator.MAX_SUBJECTS)
-        binding.apsNoteText.text = getString(R.string.estimated_from, marks.size)
+        binding.apsNoteText.hide() // always six subjects now, so the score is never an estimate
         binding.calculatorCard.hide()
         binding.toggleCalculatorButton.setText(R.string.calculate_aps)
         renderInstitutions()
+        showAllCareers = false
+        renderCareers()
     }
 
     private fun renderInstitutions() {
@@ -135,6 +141,13 @@ class ExploreFragment : BaseFragment<FragmentExploreBinding>() {
     }
 
     private fun renderCareers() {
+        val score = apsScore
+        if (score != null) {
+            renderRecommendedCareers(score)
+            return
+        }
+        binding.careerTitle.setText(R.string.popular_careers)
+        binding.careerHint.setText(R.string.careers_hint_before)
         val pool = ExploreData.careers
         val shown = if (showAllCareers) pool else pool.take(INITIAL_CAREERS)
         binding.careerContainer.removeAllViews()
@@ -147,9 +160,44 @@ class ExploreFragment : BaseFragment<FragmentExploreBinding>() {
         binding.viewMoreCareersButton.setText(if (showAllCareers) R.string.view_less else R.string.view_more_careers)
     }
 
+    /**
+     * After the APS is calculated: careers the learner qualifies for (hardest first), then the
+     * ones that are only a few points away, so the learner knows what to aim for.
+     */
+    private fun renderRecommendedCareers(score: Int) {
+        val names = resources.getStringArray(R.array.career_names)
+        val result = CareerAdvisor.recommend(score)
+        Log.d(TAG, "Careers for APS $score: ${result.qualifies.size} match, ${result.almost.size} almost")
+
+        binding.careerTitle.text = getString(R.string.careers_for_aps, score)
+        binding.careerHint.setText(R.string.careers_hint_after)
+
+        val rows = result.qualifies.map {
+            getString(R.string.career_row_qualifies, names[it.index], it.minAps)
+        } + result.almost.map {
+            getString(R.string.career_row_almost, names[it.index], it.minAps, CareerAdvisor.pointsShort(score, it))
+        }
+
+        binding.careerContainer.removeAllViews()
+        if (rows.isEmpty()) {
+            val row = ItemCareerBinding.inflate(layoutInflater, binding.careerContainer, false)
+            row.careerText.setText(R.string.careers_none)
+            binding.careerContainer.addView(row.root)
+        }
+        val shown = if (showAllCareers) rows else rows.take(INITIAL_RECOMMENDED)
+        shown.forEach { text ->
+            val row = ItemCareerBinding.inflate(layoutInflater, binding.careerContainer, false)
+            row.careerText.text = text
+            binding.careerContainer.addView(row.root)
+        }
+        binding.viewMoreCareersButton.showIf(rows.size > INITIAL_RECOMMENDED)
+        binding.viewMoreCareersButton.setText(if (showAllCareers) R.string.view_less else R.string.view_more_careers)
+    }
+
     private companion object {
         const val TAG = "ExploreFragment"
-        const val INITIAL_SUBJECTS = 3
+        const val INITIAL_RECOMMENDED = 4
+        const val INITIAL_SUBJECTS = ApsCalculator.MAX_SUBJECTS // all six subjects are needed
         const val INITIAL_INSTITUTIONS = 2
         const val INITIAL_CAREERS = 3
     }

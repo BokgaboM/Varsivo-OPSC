@@ -6,4 +6,27 @@
         <item>Imiphumela yezemfundo</item>
         <item>Ukwamukelwa noma ukubhaliswa esikhungweni</item>
     </string-array>
+    <!-- APS calculator: the six counted subjects, in order (Life Orientation is not counted) -->
+    <string-array name="aps_subjects">
+        <item>Ulimi Lwasekhaya</item>
+        <item>Ulimi Lokuqala Olwengeziwe</item>
+        <item>IziBalo noma i-Maths Literacy</item>
+        <item>Isifundo okhethile 1</item>
+        <item>Isifundo okhethile 2</item>
+        <item>Isifundo okhethile 3</item>
+    </string-array>
+    <!-- Same order as CareerAdvisor.options -->
+    <string-array name="career_names">
+        <item>Ubudokotela</item>
+        <item>I-Actuarial Science</item>
+        <item>Ubunjiniyela</item>
+        <item>Umthetho</item>
+        <item>Ukubalwa kwezimali</item>
+        <item>I-Computer Science</item>
+        <item>Ubuhlengikazi</item>
+        <item>Ubuchwepheshe bolwazi (diploma)</item>
+        <item>Ukufundisa (BEd)</item>
+        <item>Ukuphathwa kwebhizinisi</item>
+        <item>Isitifiketi esiphakeme</item>
+    </string-array>
 </resources>

@@ -6,4 +6,27 @@
         <item>Akademiese uitslae</item>
         <item>Aanvaarding of registrasie by \'n instelling</item>
     </string-array>
+    <!-- APS calculator: the six counted subjects, in order (Life Orientation is not counted) -->
+    <string-array name="aps_subjects">
+        <item>Huistaal</item>
+        <item>Eerste Addisionele Taal</item>
+        <item>Wiskunde of Wiskundige Geletterdheid</item>
+        <item>Keusevak 1</item>
+        <item>Keusevak 2</item>
+        <item>Keusevak 3</item>
+    </string-array>
+    <!-- Same order as CareerAdvisor.options -->
+    <string-array name="career_names">
+        <item>Geneeskunde</item>
+        <item>Aktuariële Wetenskap</item>
+        <item>Ingenieurswese</item>
+        <item>Regte</item>
+        <item>Rekeningkunde</item>
+        <item>Rekenaarwetenskap</item>
+        <item>Verpleegkunde</item>
+        <item>Inligtingstegnologie (diploma)</item>
+        <item>Onderwys (BEd)</item>
+        <item>Ondernemingsbestuur</item>
+        <item>Hoër Sertifikaat</item>
+    </string-array>
 </resources>

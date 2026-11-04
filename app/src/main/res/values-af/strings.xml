@@ -202,4 +202,21 @@
     <string name="photo_saved">Profielfoto in die wolk gestoor.</string>
     <string name="photo_failed">Kon nie die foto oplaai nie. Gaan jou internetverbinding na en probeer weer.</string>
     <string name="photo_not_configured">Foto-oplaai is nog nie opgestel nie.</string>
+    <string name="aps_rule_note">6 vakke word getel. Lewensoriëntering tel nie. Maksimum APS: 42.</string>
+    <!-- Explore: career recommendations from the APS -->
+    <string name="careers_for_aps">Loopbane vir jou APS (%1$d)</string>
+    <string name="careers_hint_before">Bereken jou APS om te sien na watter loopbane jy kan mik.</string>
+    <string name="careers_hint_after">Benaderde minimum APS. Elke universiteit stel sy eie vereistes, so kontroleer altyd by die instelling.</string>
+    <string name="career_row_qualifies">✓ %1$s · APS %2$d+</string>
+    <string name="career_row_almost">Amper: %1$s · APS %2$d+ (%3$d punte meer)</string>
+    <string name="careers_none">Jou APS is laer as die gewone minimum vir hierdie loopbane. Kyk na hoër sertifikate of oorbruggingsprogramme, en praat met \'n loopbaanberader.</string>
+    <!-- Real-time alerts (Firestore listeners) -->
+    <string name="alert_new_bursary_title">Nuwe beurs: %1$s</string>
+    <string name="alert_new_bursary_body">\'n Nuwe beurs is pas bygevoeg. Maak Varsivo oop om te sien of jy kwalifiseer.</string>
+    <string name="alert_new_bursary_body_closing">Aansoeke sluit %1$s. Maak Varsivo oop om te sien of jy kwalifiseer.</string>
+    <string name="alert_application_title">Aansoekopdatering</string>
+    <string name="alert_application_body">%1$s (%2$s) is nou %3$s.</string>
+    <!-- Bursaries: where the list came from -->
+    <string name="bursary_source_live">● Regstreeks van die Varsivo-beurs-API</string>
+    <string name="bursary_source_database">Gestoorde kopie uit die Varsivo-databasis (die regstreekse API is nie beskikbaar nie)</string>
 </resources>

@@ -21,6 +21,7 @@ import com.example.varsivo.data.ProfilePhotoRepository
 import com.example.varsivo.data.UserStore
 import com.example.varsivo.databinding.FragmentSettingsBinding
 import com.example.varsivo.notifications.PushNotifications
+import com.example.varsivo.notifications.RealtimeAlerts
 import com.example.varsivo.util.AppLanguage
 import com.example.varsivo.util.Validators
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -203,6 +204,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
             .setMessage(R.string.log_out_message)
             .setPositiveButton(R.string.log_out) { _, _ ->
                 authRepository.logout()
+                RealtimeAlerts.stop() // no alerts for an account that has logged out
                 findNavController().navigate(R.id.action_settings_to_login)
             }
             .setNegativeButton(R.string.cancel, null)

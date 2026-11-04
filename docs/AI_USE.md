@@ -1,52 +1,40 @@
-# Use of AI tools
+## Use of AI Tools
+
+### Tool Used
+Claude (Anthropic, 2026), 
+
+### How AI Was Used
+AI was used as a coding assistant throughout the development of the Part 2 and Part 3 prototypes. It supported the team in the following areas:
+
+- **Error fixing and debugging:** Assisted in identifying errors, understanding error messages and suggesting solutions to problems encountered during development and testing.
+- **Learning unfamiliar concepts:** Helped explain technical concepts and development approaches that the team was not yet familiar with, allowing us to better understand and implement new features.
+- **Firebase and Cloud Firestore:** Assisted us in understanding the Firebase model, connecting Firebase to the Android application and implementing features using Firebase Authentication and Cloud Firestore, including sign-in, user profiles, settings, bursaries, application tracking and UniAssist verification.
+- **Converting Jetpack Compose to XML layouts:** Helped us identify a practical way to transition the existing Compose-based prototype to XML layouts and Android Views without having to convert every file individually or rebuild the entire project from scratch. This was particularly valuable given the limited time available and the requirement to use XML layouts.
 
 
-## Tool used
+### How the AI Output Was Checked
+- Changes were reviewed, built and tested in Android Studio.
+- Unit tests were run locally, with GitHub Actions also building and testing each push.
+- The Firebase project, authentication provider and Firestore security rules were configured by me.
+- The release APK was installed and tested feature by feature on an Android emulator (Pixel 8, Android 17) by team members.
+- The demo video was recorded on a physical Android phone.
+- AI-generated suggestions were reviewed, modified where necessary and tested before being included in the project.
 
-Claude (Anthropic, 2026), a large language model, used through the Claude app.
+### What I Learned and My Own Contribution
+This project introduced me to Firebase and Cloud Firestore, which were unfamiliar technologies to me. Through the development process, I learned how to connect Firebase to an Android application, work with authentication and cloud-based data storage, and understand how Firestore differs from traditional database models.
 
-## How it was used
+I also gained experience debugging errors, learning unfamiliar programming concepts and working with XML layouts and Android Views. One of the most important lessons was discovering that an existing Jetpack Compose project could be transitioned to XML without having to recreate the entire application, which helped us manage our limited development time.
 
-The Part 2 prototype originally used Jetpack Compose, which the brief does not allow. I used Claude as a coding
-assistant while rebuilding and extending the app with XML layouts and Android Views. Specifically, it was used to:
+AI provided guidance and suggestions, but I was responsible for reviewing the code, applying the changes, configuring the project, testing the functionality and understanding how the implemented features worked.
 
-* audit the project against the Part 2 and Part 3 briefs and turn them into a checklist (`CHECKLIST.md`);
-* draft the Firebase Authentication and Cloud Firestore code (sign-in, profiles, settings, bursaries, tracker sync,
-  UniAssist verification) after the planned Azure API could not be hosted in time;
-* draft the bottom navigation, the bursary field/province filters and the language-switching code;
-* produce first drafts of the isiZulu and Afrikaans string translations;
-* rewrite the unit tests for the new Firebase design, and draft this README.
+### Emihle Zifo's Use of AI
+My role was reviewing, testing and applying our lecturer's feedback. I discovered that our first group repository had been uploaded through the GitHub website without its `app/` folder, and I tested the features on an Android emulator (Pixel 8, Android 17), reporting the results to the team.
 
-## How the output was checked
+I used Claude (Anthropic, 2026) as a coding assistant to help fix errors and implement the corrected APS calculation (six subjects, excluding Life Orientation), Explore career recommendations and automatic real-time alerts. It also assisted with unit tests and planning the test checklist.
 
-* Every change was built in Android Studio ("Assemble Project with Tests") and the full unit-test suite was run
-  locally; GitHub Actions also builds and tests every push.
-* I created and configured the Firebase project, authentication provider and Firestore security rules myself.
-* The release APK was installed and tested feature by feature on an Android emulator (Pixel 8, Android 17) by
-  team members, and the demo video was recorded on a physical phone.
+I verified the APS calculation against a published source (ZA Bursaries, 2026), ran the unit tests in Android Studio and confirmed on the emulator that the source's example produced an APS of 32. I addressed issues encountered during development, including Java setup, emulator crashes and Google sign-in in an unsigned build. I committed fixes separately and merged them through a pull request after GitHub Actions passed.
 
-
-## What I learned / my own contribution
-
-This was my first experience with the Firebase model , I not only learnt how to use it but also how different it is compared to other models. How to connect the Firebase to the code and push it to git. Along with adding different langauges froms of  authentication etc. 
-
-## Emihle Zifo's use of AI
-
-My role was reviewing, testing and applying our lecturer's feedback. I found that our first group repository had
-been uploaded through the GitHub website without its `app/` folder, and I tested every feature on an Android
-emulator (Pixel 8, Android 17) and reported the results to the team.
-
-I used Claude (Anthropic, 2026) as a coding assistant. It drafted the corrected APS calculation (six subjects, Life
-Orientation not counted), the Explore career recommendations and the automatic real-time alerts, with unit tests,
-and helped me plan the test checklist.
-
-I checked the APS rule against a published source (ZA Bursaries, 2026), ran the unit tests in Android Studio and
-confirmed on the emulator that the source's example gives an APS of 32. I fixed the problems I hit (Java setup, an
-emulator crash, Google sign-in in an unsigned build), committed each fix separately and merged them through a pull
-request after GitHub Actions passed.
-
-## Reference
-
+### References
 Anthropic (2026) *Claude* [Large language model]. Available at: https://claude.ai (Accessed: 3 November 2026).
 
 ZA Bursaries (2026) *Calculate your APS score for university entrance*. Available at: https://www.zabursaries.co.za/aps-score-for-university-entrance/ (Accessed: 4 November 2026).

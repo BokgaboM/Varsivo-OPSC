@@ -216,4 +216,7 @@
     <string name="alert_new_bursary_body_closing">Aansoeke sluit %1$s. Maak Varsivo oop om te sien of jy kwalifiseer.</string>
     <string name="alert_application_title">Aansoekopdatering</string>
     <string name="alert_application_body">%1$s (%2$s) is nou %3$s.</string>
+    <!-- Bursaries: where the list came from -->
+    <string name="bursary_source_live">● Regstreeks van die Varsivo-beurs-API</string>
+    <string name="bursary_source_database">Gestoorde kopie uit die Varsivo-databasis (die regstreekse API is nie beskikbaar nie)</string>
 </resources>

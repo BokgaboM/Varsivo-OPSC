@@ -248,4 +248,7 @@
     <string name="alert_new_bursary_body_closing">Applications close %1$s. Open Varsivo to see if you qualify.</string>
     <string name="alert_application_title">Application update</string>
     <string name="alert_application_body">%1$s (%2$s) is now %3$s.</string>
+    <!-- Bursaries: where the list came from -->
+    <string name="bursary_source_live">● Live from the Varsivo bursary API</string>
+    <string name="bursary_source_database">Saved copy from the Varsivo database (the live API is unavailable)</string>
 </resources>

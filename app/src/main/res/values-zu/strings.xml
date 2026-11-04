@@ -216,4 +216,7 @@
     <string name="alert_new_bursary_body_closing">Izicelo zivalwa ngo-%1$s. Vula i-Varsivo ubone ukuthi uyafaneleka yini.</string>
     <string name="alert_application_title">Isibuyekezo sesicelo</string>
     <string name="alert_application_body">%1$s (%2$s) manje: %3$s.</string>
+    <!-- Bursaries: where the list came from -->
+    <string name="bursary_source_live">● Kubukhoma ku-API yemifundaze ye-Varsivo</string>
+    <string name="bursary_source_database">Ikhophi elondoloziwe kusizindalwazi se-Varsivo (i-API ayitholakali)</string>
 </resources>

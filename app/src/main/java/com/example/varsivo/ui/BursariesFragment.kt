@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.varsivo.R
 import com.example.varsivo.api.Bursary
 import com.example.varsivo.data.BursaryRepository
+import com.example.varsivo.data.BursarySource
 import com.example.varsivo.databinding.FragmentBursariesBinding
 import com.example.varsivo.ui.adapter.BursaryAdapter
 import com.example.varsivo.util.BursaryFilter
@@ -91,8 +92,16 @@ class BursariesFragment : BaseFragment<FragmentBursariesBinding>() {
         viewLifecycleOwner.lifecycleScope.launch {
             try {
                 val result = repository.loadBursaries()
-                Log.i(TAG, "Loaded ${result.size} bursaries")
-                allBursaries = result
+                Log.i(TAG, "Loaded ${result.bursaries.size} bursaries from ${result.source}")
+                allBursaries = result.bursaries
+                // Tell the student whether this is live data or the saved copy.
+                if (hasView) {
+                    binding.sourceText.setText(
+                        if (result.source == BursarySource.LIVE_API) R.string.bursary_source_live
+                        else R.string.bursary_source_database
+                    )
+                    binding.sourceText.show()
+                }
             } catch (e: CancellationException) {
                 throw e
             } catch (e: Exception) {

@@ -10,7 +10,7 @@ Language: **Kotlin** · UI: **XML layouts + Android Views** (no Jetpack Compose 
 
 > 🎥 **Demo video:** `<!-- TODO: paste the unlisted YouTube link here -->`
 >
-> 👥 **Team (Group 7 – CyberSparks):** Bokgabo Mohlala (ST10440136), Emihle Zifo (ST10452317), Shaan Motshoalane, Keletso Thamakga
+> 👥 **Team (Group 7 – CyberSparks):** Bokgabo Mohlala (ST10440136), Emihle Zifo (ST10452317), Mampe Shaan Motsholane (ST10437865), Keletso Hope Thamaga (ST10456948)
 
 ---
 
@@ -45,7 +45,7 @@ websites. Varsivo puts the essentials in one app:
 | **Onboarding choices** | Role (Grade 11 learner / Grade 12 learner / University student) and language, picked on the login screen and saved to the profile. | `LoginFragment`, `UserStore` |
 | **Forgot password** | Firebase emails a real reset link. | `LoginFragment`, `AuthRepository.sendPasswordReset` |
 | **Settings** | Name, school, language, notifications and password change. Saved on the phone (SharedPreferences) and in Firestore `users/{uid}`; offline changes upload automatically later. | `SettingsFragment`, `AuthRepository.updateSettings` |
-| **Bursary database** (user-defined 2) | Bursaries from the Firestore `bursaries` collection (seeded from the app the first time it is empty). Search by name or provider, filter by study field and province. | `BursariesFragment`, `BursaryRepository`, `BursarySeed`, `BursaryFilter` |
+| **Bursary database** (user-defined 2) | Loaded **live from our REST API** (MockAPI `GET /bursaries` through Retrofit), with the Firestore `bursaries` collection as the backup when the API is unavailable; the screen shows which source is in use. Search by name or provider, filter by study field and province. | `BursariesFragment`, `BursaryRepository`, `BursaryApiService`, `BursaryFilter` |
 | **APS calculator** (user-defined 1) | Six labelled subjects (Home Language, First Additional Language, Maths or Maths Literacy, three electives); each mark (0–100) is converted to the 7-point scale and added up. Life Orientation is not counted; maximum 42. Shows which institutions the learner qualifies for and **recommends careers** for that APS (plus careers a few points away). | `ExploreFragment`, `ApsCalculator`, `CareerAdvisor` |
 | **Application tracker** (user-defined 3, offline mode) | Applications, status changes and deletes are saved to SQLite first, then synced to Firestore `users/{uid}/applications`. Offline changes show "Offline – will sync…" and upload when the tracker opens again. | `ApplicationsTrackerFragment`, `ApplicationRepository`, `ApplicationsDb`, `FirestoreApplicationRemote` |
 | **UniAssist (premium)** (user-defined 4) | Locked until the student enters a university email ending in `.ac.za`; the flag is stored on the phone and in Firestore. | `FirstYearSupportFragment`, `UniAssistRepository` |
@@ -90,6 +90,7 @@ com.example.varsivo
 |---|---|
 | **Firebase Authentication** | Accounts (email + password) and password-reset emails |
 | **Cloud Firestore** (NoSQL) | `users/{uid}`: profile, role, language, notifications, UniAssist flag · `users/{uid}/applications`: tracker · `bursaries`: bursary database |
+| **MockAPI (our REST API)** | `GET /bursaries`: the live bursary list |
 | **Hipo Labs Universities API** | List of South African universities |
 | **OpenStreetMap Nominatim** | University name → map coordinates |
 | **Firebase Cloud Messaging** | Push notifications (topic `bursary-alerts`) |
@@ -107,6 +108,7 @@ JUnit tests run on the JVM, with no phone needed:
 | `ValidatorsTest` | Name, email, password, mark and `.ac.za` student-email rules |
 | `ApsCalculatorTest` | Mark → points, six subjects required, worked example (APS 32), minimum and maximum, eligibility |
 | `CareerAdvisorTest` | Careers recommended for an APS, "almost" careers within 3 points, ordering |
+| `BursaryRepositoryTest` | Live API used first; falls back to the database when the API fails or is empty |
 | `RealtimeAlertRulesTest` | When a status change should (and should not) trigger an alert |
 | `BursaryFilterTest` | Search, field filter, province filter, "View more" |
 | `BursaryTest`, `SecurityUtilsTest`, `PartOfDayTest`, `ApplicationStatusTest` | JSON nulls, hashing, greeting, status cycling |
@@ -160,6 +162,8 @@ Version **2.0** (`versionCode 2`), application ID `za.co.varsivo.app`.
 
 * **Career recommendations from the APS** – after calculating, Explore lists the careers the learner qualifies for
   and the ones a few points away (suggested by our lecturer).
+* **Live bursary API** – the bursary list now comes live from our hosted REST API (MockAPI, through Retrofit),
+  with Firestore as the offline backup (suggested by our lecturer).
 * **Automatic real-time alerts** – Firestore listeners notify students the moment a new bursary is added or an
   application's status changes, without anyone sending a message by hand (suggested by our lecturer).
 

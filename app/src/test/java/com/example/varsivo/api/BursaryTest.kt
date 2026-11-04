@@ -24,4 +24,11 @@ class BursaryTest {
         assertEquals("", bursary.eligibility)
         assertEquals("", bursary.closingDate)
     }
+
+    @Test fun gsonParsing_acceptsMockApisLowercaseClosingdate() {
+        // Our MockAPI resource stores the field as "closingdate".
+        val json = """{"id":"1","name":"NSFAS","closingdate":"Check official NSFAS website"}"""
+        val bursary = Gson().fromJson(json, Bursary::class.java)
+        assertEquals("Check official NSFAS website", bursary.closingDate)
+    }
 }

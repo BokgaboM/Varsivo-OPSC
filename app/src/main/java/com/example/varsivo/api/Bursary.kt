@@ -1,5 +1,7 @@
 package com.example.varsivo.api
 
+import com.google.gson.annotations.SerializedName
+
 /**
  * A bursary, as stored in the Cloud Firestore "bursaries" collection.
  * Firestore (and Gson) bypass Kotlin's null-safety, so a missing field can end up null even though
@@ -11,6 +13,8 @@ data class Bursary(
     val description: String = "",
     val provider: String = "",
     val eligibility: String = "",
+    // Our MockAPI resource calls this field "closingdate" (all lowercase); accept both spellings.
+    @SerializedName(value = "closingDate", alternate = ["closingdate"])
     val closingDate: String = "",
     /** Study field, e.g. "Engineering", or "All fields". */
     val field: String = "",

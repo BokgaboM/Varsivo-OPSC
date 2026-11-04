@@ -7,4 +7,27 @@
         <item>Academic results</item>
         <item>Acceptance or registration at an institution</item>
     </string-array>
+    <!-- APS calculator: the six counted subjects, in order (Life Orientation is not counted) -->
+    <string-array name="aps_subjects">
+        <item>Home Language</item>
+        <item>First Additional Language</item>
+        <item>Mathematics or Maths Literacy</item>
+        <item>Elective subject 1</item>
+        <item>Elective subject 2</item>
+        <item>Elective subject 3</item>
+    </string-array>
+    <!-- Same order as CareerAdvisor.options -->
+    <string-array name="career_names">
+        <item>Medicine</item>
+        <item>Actuarial Science</item>
+        <item>Engineering</item>
+        <item>Law</item>
+        <item>Accounting</item>
+        <item>Computer Science</item>
+        <item>Nursing</item>
+        <item>Information Technology (diploma)</item>
+        <item>Teaching (BEd)</item>
+        <item>Business Management</item>
+        <item>Higher Certificate</item>
+    </string-array>
 </resources>

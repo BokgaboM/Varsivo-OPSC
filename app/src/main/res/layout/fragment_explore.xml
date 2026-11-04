@@ -172,11 +172,21 @@
                 android:text="@string/view_more_institutions" />
 
             <TextView
+                android:id="@+id/careerTitle"
                 style="@style/Varsivo.Text.SectionTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:text="@string/popular_careers" />
+
+            <!-- Explains that the minimums are a guide (changes once the APS is calculated) -->
+            <TextView
+                android:id="@+id/careerHint"
+                style="@style/Varsivo.Text.Caption"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="@string/careers_hint_before" />
 
             <LinearLayout
                 android:id="@+id/careerContainer"

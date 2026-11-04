@@ -202,4 +202,18 @@
     <string name="photo_saved">Isithombe sephrofayela silondolozwe emafini.</string>
     <string name="photo_failed">Asikwazanga ukulayisha isithombe. Hlola ukuxhumana kwakho bese uzama futhi.</string>
     <string name="photo_not_configured">Ukulayisha izithombe akukasethwa.</string>
+    <string name="aps_rule_note">Kubalwa izifundo ezi-6. I-Life Orientation ayibalwa. I-APS ephezulu: 42.</string>
+    <!-- Explore: career recommendations from the APS -->
+    <string name="careers_for_aps">Imisebenzi ye-APS yakho (%1$d)</string>
+    <string name="careers_hint_before">Bala i-APS yakho ukuze ubone imisebenzi ongayihlosa.</string>
+    <string name="careers_hint_after">I-APS ephansi elinganiselwe. Inyuvesi ngayinye inemibandela yayo, ngakho hlola isikhungo njalo.</string>
+    <string name="career_row_qualifies">✓ %1$s · APS %2$d+</string>
+    <string name="career_row_almost">Cishe: %1$s · APS %2$d+ (amaphuzu angu-%3$d engeziwe)</string>
+    <string name="careers_none">I-APS yakho ingaphansi kwezinga elivamile lale misebenzi. Bheka izitifiketi eziphakeme noma izinhlelo zokuvala igebe, futhi ukhulume nomeluleki wemisebenzi.</string>
+    <!-- Real-time alerts (Firestore listeners) -->
+    <string name="alert_new_bursary_title">Umfundaze omusha: %1$s</string>
+    <string name="alert_new_bursary_body">Kusanda kwengezwa umfundaze omusha. Vula i-Varsivo ubone ukuthi uyafaneleka yini.</string>
+    <string name="alert_new_bursary_body_closing">Izicelo zivalwa ngo-%1$s. Vula i-Varsivo ubone ukuthi uyafaneleka yini.</string>
+    <string name="alert_application_title">Isibuyekezo sesicelo</string>
+    <string name="alert_application_body">%1$s (%2$s) manje: %3$s.</string>
 </resources>

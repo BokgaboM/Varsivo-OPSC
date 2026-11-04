@@ -234,4 +234,18 @@
     <string name="photo_saved">Profile photo saved to the cloud.</string>
     <string name="photo_failed">Couldn\'t upload the photo. Check your internet connection and try again.</string>
     <string name="photo_not_configured">Photo upload is not set up yet.</string>
+    <string name="aps_rule_note">6 subjects are counted. Life Orientation is not counted. Maximum APS: 42.</string>
+    <!-- Explore: career recommendations from the APS -->
+    <string name="careers_for_aps">Careers for your APS (%1$d)</string>
+    <string name="careers_hint_before">Calculate your APS to see which careers you can aim for.</string>
+    <string name="careers_hint_after">Approximate minimum APS. Each university sets its own requirements, so always check the institution.</string>
+    <string name="career_row_qualifies">✓ %1$s · APS %2$d+</string>
+    <string name="career_row_almost">Almost: %1$s · APS %2$d+ (%3$d more points)</string>
+    <string name="careers_none">Your APS is below the usual minimum for these careers. Look at higher certificates or bridging programmes, and speak to a career counsellor.</string>
+    <!-- Real-time alerts (Firestore listeners) -->
+    <string name="alert_new_bursary_title">New bursary: %1$s</string>
+    <string name="alert_new_bursary_body">A new bursary was just added. Open Varsivo to see if you qualify.</string>
+    <string name="alert_new_bursary_body_closing">Applications close %1$s. Open Varsivo to see if you qualify.</string>
+    <string name="alert_application_title">Application update</string>
+    <string name="alert_application_body">%1$s (%2$s) is now %3$s.</string>
 </resources>

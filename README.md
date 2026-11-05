@@ -201,3 +201,18 @@ OpenStreetMap Foundation (2025) *Nominatim*. Available at: https://nominatim.org
 OWASP (2024) *Password Storage Cheat Sheet*. Available at: https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html (Accessed: 3 November 2026).
 Square (2024) *Retrofit*. Available at: https://square.github.io/retrofit/ (Accessed: 3 November 2026).
 ZA Bursaries (2026) *Calculate your APS score for university entrance*. Available at: https://www.zabursaries.co.za/aps-score-for-university-entrance/ (Accessed: 4 November 2026).
+
+## 13. Play Store preparation
+
+The app is ready for upload to the Google Play Console. It has not been uploaded, because a Google Play
+developer account and a 14-day closed test with 12 testers are required before a new app can go live.
+
+| Item | Details |
+|---|---|
+| Release build | Signed release APK, version 2.0 (`versionCode 2`), application ID `za.co.varsivo.app`. The release keystore is stored securely offline and is excluded from GitHub. |
+| Hi-res icon | 512 × 512, `docs/play-store/icon-512.png` |
+| Feature graphic | 1024 × 500, `docs/play-store/feature-graphic-1024x500.png` |
+| Phone screenshots | The main screens, in `docs/screenshots/` (see section 2) |
+
+<img src="docs/play-store/icon-512.png" width="120" alt="Varsivo Play Store icon"> <img src="docs/play-store/feature-graphic-1024x500.png" width="480" alt="Varsivo feature graphic">
+

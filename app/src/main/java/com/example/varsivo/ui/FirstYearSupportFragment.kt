@@ -18,7 +18,7 @@ import kotlinx.coroutines.launch
 
 /**
  * UniAssist (premium tier): today's timetable and upcoming deadlines for first-year students.
- * Locked until the student verifies a university email ending in ".ac.za".
+ * Locked until the student verifies a university or college email (.ac.za, .edu.za or an allowed college domain).
  * The timetable and deadlines are sample content for the prototype.
  */
 class FirstYearSupportFragment : BaseFragment<FragmentFirstYearSupportBinding>() {
@@ -47,7 +47,7 @@ class FirstYearSupportFragment : BaseFragment<FragmentFirstYearSupportBinding>()
 
         binding.toolbar.setNavigationOnClickListener { findNavController().navigateUp() }
 
-        // Locked until a university (.ac.za) email is verified.
+        // Locked until a university or college email is verified (see Validators.isStudentEmail).
         showLocked(!userStore.uniAssistVerified)
         binding.verifyButton.setOnClickListener { verify() }
         binding.studentEmailInput.onTextChanged { binding.studentEmailLayout.error = null }

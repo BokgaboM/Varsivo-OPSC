@@ -189,9 +189,9 @@
     <string name="filter_field">Studieveld</string>
     <string name="filter_province">Provinsie</string>
     <string name="no_bursaries_match">Geen beurse pas by jou soektog en filters nie.</string>
-    <string name="student_email_hint">Studente-e-pos (eindig op .ac.za)</string>
+    <string name="student_email_hint">Studente-e-pos (eindig op .ac.za of .edu.za)</string>
     <string name="verify_email">Verifieer en sluit oop</string>
-    <string name="error_student_email">Gebruik jou universiteit se e-posadres, bv. naam@student.uj.ac.za</string>
+    <string name="error_student_email">Gebruik jou universiteit of kollege se e-posadres, bv. naam@student.uj.ac.za of ST10000000@vcconnect.edu.za</string>
     <string name="uniassist_unlocked">UniAssist oopgesluit!</string>
     <string name="error_google_sign_in">Google-aanmelding het nie gewerk nie. Gaan jou internetverbinding na en probeer weer, of meld aan met jou e-pos.</string>
     <string name="notification_channel_name">Varsivo-waarskuwings</string>

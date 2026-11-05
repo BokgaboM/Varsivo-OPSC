@@ -189,9 +189,9 @@
     <string name="filter_field">Umkhakha</string>
     <string name="filter_province">Isifundazwe</string>
     <string name="no_bursaries_match">Ayikho imifundaze ehambisana nosesho lwakho nezihlungi.</string>
-    <string name="student_email_hint">I-imeyili yomfundi (iphela ngo-.ac.za)</string>
+    <string name="student_email_hint">I-imeyili yomfundi (iphela ngo-.ac.za noma .edu.za)</string>
     <string name="verify_email">Qinisekisa futhi uvule</string>
-    <string name="error_student_email">Sebenzisa ikheli le-imeyili lenyuvesi yakho, isb. igama@student.uj.ac.za</string>
+    <string name="error_student_email">Sebenzisa ikheli le-imeyili lenyuvesi noma lekolishi lakho, isb. igama@student.uj.ac.za noma ST10000000@vcconnect.edu.za</string>
     <string name="uniassist_unlocked">I-UniAssist ivuliwe!</string>
     <string name="error_google_sign_in">Ukungena nge-Google akusebenzanga. Hlola ukuxhumana kwakho bese uzama futhi, noma ungene nge-imeyili yakho.</string>
     <string name="notification_channel_name">Izexwayiso ze-Varsivo</string>

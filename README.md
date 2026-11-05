@@ -25,7 +25,7 @@ websites. Varsivo puts the essentials in one app:
 | How do I pay for it? | **Bursaries**: searchable list from the Cloud Firestore database, filtered by field and province |
 | Where did I apply? | **Tracker**: offline-first application tracker that syncs to the cloud |
 | Which universities exist? | **Find your university**: public universities API with a map |
-| How do I survive first year? | **UniAssist** (premium): timetable and deadlines, unlocked with a verified `.ac.za` student email |
+| How do I survive first year? | **UniAssist** (premium): timetable and deadlines, unlocked with a verified university or college email (`.ac.za` or `.edu.za`) |
 
 ## 2. Screenshots
 
@@ -48,7 +48,7 @@ websites. Varsivo puts the essentials in one app:
 | **Bursary database** (user-defined 2) | Loaded **live from our REST API** (MockAPI `GET /bursaries` through Retrofit), with the Firestore `bursaries` collection as the backup when the API is unavailable; the screen shows which source is in use. Search by name or provider, filter by study field and province. | `BursariesFragment`, `BursaryRepository`, `BursaryApiService`, `BursaryFilter` |
 | **APS calculator** (user-defined 1) | Six labelled subjects (Home Language, First Additional Language, Maths or Maths Literacy, three electives); each mark (0–100) is converted to the 7-point scale and added up. Life Orientation is not counted; maximum 42. Shows which institutions the learner qualifies for and **recommends careers** for that APS (plus careers a few points away). | `ExploreFragment`, `ApsCalculator`, `CareerAdvisor` |
 | **Application tracker** (user-defined 3, offline mode) | Applications, status changes and deletes are saved to SQLite first, then synced to Firestore `users/{uid}/applications`. Offline changes show "Offline – will sync…" and upload when the tracker opens again. | `ApplicationsTrackerFragment`, `ApplicationRepository`, `ApplicationsDb`, `FirestoreApplicationRemote` |
-| **UniAssist (premium)** (user-defined 4) | Locked until the student enters a university email ending in `.ac.za`; the flag is stored on the phone and in Firestore. | `FirstYearSupportFragment`, `UniAssistRepository` |
+| **UniAssist (premium)** (user-defined 4) | Locked until the student enters a university or college email (`.ac.za`, `.edu.za` such as the IIE's `vcconnect.edu.za`, or an allowed college domain); look-alikes such as `uj.ac.za.fake.com` are refused; the flag is stored on the phone and in Firestore. | `FirstYearSupportFragment`, `UniAssistRepository` |
 | **Universities + map** (user-defined 5) | Hipo Labs Universities API (Retrofit), OpenStreetMap Nominatim for coordinates, shown on a MapLibre map. | `UniversitiesFragment`, `UniversityMapFragment` |
 | **Three languages** | English, isiZulu and Afrikaans for every screen; switch on the login screen or in Settings. | `res/values`, `res/values-zu`, `res/values-af`, `AppLanguage` |
 | **Single sign-on (Google)** | "Continue with Google" through Android Credential Manager; the Google ID token is exchanged for a Firebase account. | `LoginFragment`, `AuthRepository.loginWithGoogle`, `FirebaseAuthService` |
@@ -105,7 +105,7 @@ JUnit tests run on the JVM, with no phone needed:
 | Test class | What it proves |
 |---|---|
 | `AuthRepositoryTest` | Register (hash on phone, profile online, role and language sent), duplicate email, offline register; login online, offline, wrong password, unknown email, on a second phone; Google sign-in profile; password reset; change password; settings online and offline; logout |
-| `ValidatorsTest` | Name, email, password, mark and `.ac.za` student-email rules |
+| `ValidatorsTest` | Name, email, password, mark and student-email rules (`.ac.za`, `.edu.za`, allowed colleges, look-alike domains refused) |
 | `ApsCalculatorTest` | Mark → points, six subjects required, worked example (APS 32), minimum and maximum, eligibility |
 | `CareerAdvisorTest` | Careers recommended for an APS, "almost" careers within 3 points, ordering |
 | `BursaryRepositoryTest` | Live API used first; falls back to the database when the API fails or is empty |
@@ -145,7 +145,7 @@ fall-backs and navigation. Filter Logcat by `package:za.co.varsivo.app` to follo
 * Role and language chosen at onboarding.
 * Bursaries moved to **Firestore**, with **field and province filters** and search by provider.
 * Tracker status changes and deletes now **sync to the cloud**, with offline queueing.
-* **UniAssist** locked behind `.ac.za` student-email verification.
+* **UniAssist** locked behind student-email verification (`.ac.za`, `.edu.za` and allowed college domains).
 * New bottom navigation: Home | Explore | Bursaries | Tracker | Profile.
 * **isiZulu and Afrikaans** translations for every screen.
 * App ID changed to `za.co.varsivo.app` (Play Store ready).

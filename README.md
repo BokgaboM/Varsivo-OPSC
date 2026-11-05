@@ -8,7 +8,7 @@ qualify for, find bursaries, keep track of their applications, and get first-yea
 OPSC6312 Portfolio of Evidence (Part 2: App Prototype, Part 3: Final App).
 Language: **Kotlin** · UI: **XML layouts + Android Views** (no Jetpack Compose anywhere in the project).
 
-> 🎥 **Demo video:** `<!-- TODO: paste the unlisted YouTube link here -->`
+> 🎥 **Demo video:** [Watch the demo video on Google Drive](https://drive.google.com/file/d/13wylnIUkycRHRqTKQswZwzYwcZuzEb7I/view)
 >
 > 👥 **Team (Group 7 – CyberSparks):** Bokgabo Mohlala (ST10440136), Emihle Zifo (ST10452317), Mampe Shaan Motsholane (ST10437865), Keletso Hope Thamaga (ST10456948)
 
